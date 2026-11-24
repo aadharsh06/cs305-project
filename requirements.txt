@@ -1,0 +1,5 @@
+pydantic-settings
+requests
+streamlit
+fpdf2>=2.8
+Markdown>=3.6
