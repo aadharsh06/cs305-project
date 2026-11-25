@@ -1,30 +1,25 @@
-"""Thin client for the RAG model running in a Kaggle notebook."""
 
 from __future__ import annotations
-
 import json
+from datetime import date
 from typing import Callable
-
 import requests
-
 from config import get_settings
-
 
 settings = get_settings()
 
-
 class AgentClient:
     def __init__(self) -> None:
-        if not settings.server_url:
-            raise RuntimeError("Set RAG_SERVER_URL in .env to the Kaggle tunnel URL.")
-        if not settings.api_token:
-            raise RuntimeError("Set RAG_API_TOKEN in .env to the Kaggle API token.")
         self.session = requests.Session()
         self.session.headers.update({"Authorization": f"Bearer {settings.api_token}"})
 
     def generate(
         self, payload: dict, on_response: Callable[[str], None] | None = None
     ) -> str:
+        payload = payload.copy()
+        payload["prompt"] = (
+            f"Current date: {date.today().isoformat()}\n\n{payload['prompt']}"
+        )
         try:
             with self.session.post(
                 f"{settings.server_url.rstrip('/')}/generate",
@@ -111,7 +106,6 @@ def verify_requirements(
 
 
 def verify_sdlc_recommendation(
-    requirements_srs: str,
     sdlc_recommendation: str,
     user_question: str,
     client: AgentClient,
@@ -122,7 +116,6 @@ def verify_sdlc_recommendation(
         {
             "mode": "sdlc_verifier",
             "prompt": user_question,
-            "requirements_srs": requirements_srs,
             "artifact_to_verify": sdlc_recommendation,
             "history": history or [],
         },

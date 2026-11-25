@@ -490,7 +490,6 @@ if user_text:
                             "Generate requirements and an SDLC recommendation before verifying the SDLC."
                         )
                     response = agent.verify_sdlc_recommendation(
-                        requirements_srs,
                         sdlc_recommendation,
                         user_text,
                         client,
