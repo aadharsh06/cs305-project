@@ -1,7 +1,7 @@
 # CS305 Project
 
-Name: Aadharsh Venkat
-Roll Number: 241CS101
+Name: Aadharsh Venkat \
+Roll Number: 241CS101 \
 Section: S1
 
 This project is a small chat application that uses retrieval augmented generation (RAG) to help in the software development lifecycle through requirements analysis (SRS document) and identifying the apprpriate SDLC. It runs a Streamlit interface and a language model with the RAG documents on a Kaggle GPU session. The local app sends requests to the Kaggle server through an ngrok URL.
